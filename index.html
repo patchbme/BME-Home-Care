@@ -243,6 +243,8 @@
 <input type="file" id="fileInput" accept="application/json" style="display:none" />
 <div class="toast" id="toast"></div>
 
+<!-- ค่าเชื่อมต่อคลาวด์ (แก้ที่ไฟล์ config.js เท่านั้น) -->
+<script src="config.js"></script>
 <script>
 /* ============================================================
    ระบบแจ้งซ่อมบ้าน & มอบหมายงาน — Single-file app
@@ -288,7 +290,7 @@ let houseFilter = { q:"", zone:"" };
 /* ========= ตั้งค่าเชื่อมต่อคลาวด์ (Google Apps Script) =========
    วาง URL เว็บแอป (ลงท้ายด้วย /exec) และรหัสลับให้ตรงกับใน Apps Script
    ถ้าเว้นว่างไว้ ระบบจะทำงานแบบออฟไลน์ (เก็บในเครื่อง) เหมือนเดิม     */
-const CLOUD = { url:"", key:"" };
+const CLOUD = (window.APP_CLOUD || { url:"", key:"" });
 // ข้อมูลตั้งต้นที่ฝังไว้ (เปิดมาเห็นข้อมูลจริงทันที เมื่อยังไม่ต่อคลาวด์)
 const SEED_DATA = {
  "jobs": [
@@ -23559,7 +23561,12 @@ async function cloudLoad(initial){
   const d=await r.json();
   if(!d||!d.ok) throw new Error((d&&d.error)||'load failed');
   if(d.state){ state=d.state; if(!state.cs)state.cs=[]; if(!state.houses)state.houses=[]; if(!state.techs)state.techs=[]; }
-  else if(initial){ initTeam(); await cloudSaveNow(); }
+  else if(initial){
+    // เชื่อมคลาวด์ครั้งแรก (ชีตยังว่าง) → อัปโหลดข้อมูลที่ฝังไว้ (นำเข้าแล้ว) ขึ้นเป็นชุดเริ่มต้น
+    if(typeof SEED_DATA!=='undefined' && SEED_DATA){ state=SEED_DATA; if(!state.cs)state.cs=[]; if(!state.houses)state.houses=[]; if(!state.techs)state.techs=[]; }
+    else initTeam();
+    await cloudSaveNow();
+  }
   return true;
 }
 function cloudSaveNow(){
