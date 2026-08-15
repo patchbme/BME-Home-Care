@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>สรุประบบแจ้งซ่อมบ้าน & มอบหมายงาน — ก่อนใช้งานจริง</title>
+<style>
+  :root{--ink:#1f2733;--muted:#6b7688;--line:#e6e9f0;--brand:#3557d6;--brand-soft:#eaefff;--ok:#1e9e6a;--ok-soft:#e3f6ee;--warn:#d98a00;--warn-soft:#fdf3dd;--danger:#d63c4a;--danger-soft:#fde7e9;--purple:#7a52d1;}
+  *{box-sizing:border-box}
+  body{font-family:"Noto Sans Thai","Sarabun",-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.7;margin:0;background:#f4f6fb}
+  .wrap{max-width:900px;margin:0 auto;padding:30px 22px 80px}
+  header{background:linear-gradient(135deg,#3557d6,#7a52d1);color:#fff;border-radius:16px;padding:28px;margin-bottom:24px}
+  header h1{margin:0 0 6px;font-size:25px}
+  header p{margin:0;opacity:.92;font-size:14.5px}
+  .meta{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:13px;opacity:.95}
+  h2{font-size:19px;margin:32px 0 10px;padding-top:16px;border-top:2px solid var(--line);display:flex;align-items:center;gap:10px}
+  h3{font-size:15.5px;margin:16px 0 4px}
+  p,li,td,th{font-size:14.5px}
+  ul,ol{padding-inline-start:22px}
+  li{margin:5px 0}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:12px 0}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media(max-width:680px){.grid2{grid-template-columns:1fr}}
+  .feat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .feat b{display:block;margin-bottom:4px}
+  .feat .d{font-size:13.5px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;margin:10px 0}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:start;vertical-align:top}
+  th{background:#f7f9fc;font-size:13px}
+  code{background:#eef1f7;padding:2px 6px;border-radius:5px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;color:#c0392b}
+  .flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+  .step{background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 13px;font-size:13.5px;font-weight:600}
+  .arr{color:var(--muted);font-weight:700}
+  .chip{display:inline-block;padding:2px 10px;border-radius:20px;font-size:12px;font-weight:700}
+  .c1{background:#e4f3fb;color:#1c6d99}.c2{background:#efe8fc;color:#5b39a8}.c3{background:#fdf3dd;color:#9a6300}.c4{background:#fde8de;color:#b45516}.c5{background:#e3f6ee;color:#146c48}.c6{background:#eef0f4;color:#727d90}
+  .box{border-radius:12px;padding:14px 16px;margin:12px 0}
+  .tip{border-inline-start:4px solid var(--ok);background:var(--ok-soft)}
+  .warn{border-inline-start:4px solid var(--warn);background:var(--warn-soft)}
+  .danger{border-inline-start:4px solid var(--danger);background:var(--danger-soft)}
+  .check{list-style:none;padding-inline-start:0}
+  .check li{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:7px 0;display:flex;gap:10px}
+  .check li::before{content:"☐";color:var(--brand);font-weight:700;font-size:17px}
+  .files{display:grid;gap:8px}
+  .file{display:flex;gap:12px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff}
+  .file .ic{font-size:22px}
+  .file b{font-size:14.5px}
+  .file .d{font-size:13px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🏠 ระบบแจ้งซ่อมบ้าน & มอบหมายงาน</h1>
+    <p>สรุปรายละเอียดโครงการทั้งหมด สำหรับทบทวนก่อนนำขึ้นใช้งานจริง</p>
+    <div class="meta">
+      <span>📦 ขอบเขต: แผนกบริการลูกค้า → แผนกช่าง</span>
+      <span>🏘️ บริหาร 124 หลัง</span>
+      <span>📅 จัดทำ: สิงหาคม 2568</span>
+    </div>
+  </header>
+
+  <div class="box tip">
+    <b>ระบบนี้ช่วยอะไร:</b> รวมงานซ่อมทั้งหมดของหมู่บ้าน 124 หลังไว้ที่เดียว ตั้งแต่ลูกค้าแจ้ง → เจ้าหน้าที่มอบหมายช่าง → ติดตามสถานะ → บันทึกค่าใช้จ่ายและวันที่ → ปิดงาน พร้อมแจ้งเตือนช่างผ่าน LINE และดูภาพรวมผ่านแดชบอร์ด
+  </div>
+
+  <!-- 1. ผังการทำงาน -->
+  <h2>1. ขั้นตอนการทำงาน (Workflow)</h2>
+  <div class="flow">
+    <span class="step">📞 รับแจ้ง (CS)</span><span class="arr">→</span>
+    <span class="step">👷 มอบหมายช่าง</span><span class="arr">→</span>
+    <span class="step">🔍 เข้าประเมินหน้างาน</span><span class="arr">→</span>
+    <span class="step">🔧 เข้าซ่อม</span><span class="arr">→</span>
+    <span class="step">✅ ปิดงาน เสร็จเรียบร้อย</span>
+  </div>
+  <p>แต่ละงานมีสถานะชัดเจน 6 ขั้น และบันทึกวันที่สำคัญ 4 จุด เพื่อวัดระยะเวลาทำงานได้:</p>
+  <p style="margin:6px 0">
+    <span class="chip c1">แจ้งใหม่</span>
+    <span class="chip c2">มอบหมายแล้ว</span>
+    <span class="chip c3">กำลังดำเนินการ</span>
+    <span class="chip c4">รออะไหล่</span>
+    <span class="chip c5">เสร็จสิ้น</span>
+    <span class="chip c6">ยกเลิก</span>
+  </p>
+
+  <!-- 2. ฟีเจอร์ -->
+  <h2>2. ฟีเจอร์ทั้งหมด</h2>
+  <div class="grid2">
+    <div class="feat"><b>📝 รับแจ้งซ่อม</b><div class="d">เลือกบ้านจากทะเบียน (เติมโซน/เจ้าของ/เบอร์อัตโนมัติ), เลือกประเภทงาน, ความเร่งด่วน, แนบรูป, ระบุผู้รับแจ้ง และวันที่แจ้ง</div></div>
+    <div class="feat"><b>👷 มอบหมายงาน</b><div class="d">เลือกช่างผู้รับผิดชอบ ระบบแสดงจำนวนงานค้างของช่างแต่ละคนเพื่อช่วยกระจายงาน</div></div>
+    <div class="feat"><b>🚦 ความเร่งด่วน + SLA</b><div class="d">ด่วนมาก / ด่วน / ปกติ พร้อมเตือน “เกิน SLA” อัตโนมัติเมื่อค้างเกินเวลาเป้าหมาย</div></div>
+    <div class="feat"><b>🕒 ติดตามสถานะ</b><div class="d">6 สถานะ พร้อมไทม์ไลน์ประวัติการดำเนินงานทุกครั้งที่อัปเดต</div></div>
+    <div class="feat"><b>📅 วันที่ 4 จุด</b><div class="d">แจ้งซ่อม / เข้าประเมินหน้างาน / เข้าซ่อม / งานเสร็จ — เติมอัตโนมัติตามสถานะ และคำนวณเวลารวม</div></div>
+    <div class="feat"><b>💰 ค่าใช้จ่าย</b><div class="d">ประเมินค่าใช้จ่าย + ค่าใช้จ่ายจริง แสดงส่วนต่าง และสรุปยอดในแดชบอร์ด</div></div>
+    <div class="feat"><b>🏘️ ทะเบียนบ้าน 124 หลัง</b><div class="d">รายชื่อบ้านพร้อมโซน/เจ้าของ/เบอร์, ค้นหา/กรอง, ประวัติซ่อมรายหลัง, นำเข้ารายชื่อแบบวางทีเดียว</div></div>
+    <div class="feat"><b>💬 แจ้งเข้า LINE</b><div class="d">ปุ่มส่งข้อความสรุปงานเข้าไลน์ + (เมื่อต่อคลาวด์) ส่งอัตโนมัติเมื่อมอบหมายช่าง</div></div>
+    <div class="feat"><b>📊 แดชบอร์ด</b><div class="d">สรุปงานตามสถานะ/ความเร่งด่วน, ภาระงานช่าง, เกิน SLA, เวลาซ่อมเฉลี่ย, ยอดค่าใช้จ่าย</div></div>
+    <div class="feat"><b>📋 บอร์ดสถานะ (Kanban)</b><div class="d">มุมมองการ์ดแยกตามสถานะ เห็นงานไหลจากซ้ายไปขวา</div></div>
+    <div class="feat"><b>🔎 ค้นหา/กรองงาน</b><div class="d">ค้นด้วยรหัสงาน/ลูกค้า/หัวข้อ/สถานที่ และกรองตามสถานะ/ความเร่งด่วน/ช่าง</div></div>
+    <div class="feat"><b>👥 จัดการทีมงาน</b><div class="d">เพิ่ม/แก้/ลบ ช่างและพนักงานรับแจ้ง ดูภาระงานและงานที่รับแจ้งของแต่ละคน</div></div>
+    <div class="feat"><b>💾 ข้อมูล & สำรอง</b><div class="d">บันทึก/โหลดไฟล์ JSON สำหรับสำรองข้อมูล และซิงก์ขึ้นคลาวด์เมื่อเชื่อมต่อ</div></div>
+  </div>
+
+  <!-- 3. ทีมงาน -->
+  <h2>3. ทีมงานในระบบ</h2>
+  <div class="grid2">
+    <div class="card">
+      <b>🔧 ทีมช่าง (5)</b>
+      <ul><li>พี่สมพงษ์</li><li>พี่วิทย์</li><li>พี่หาญ</li><li>พี่ใหม่</li><li>ทีมพี่แอ้</li></ul>
+    </div>
+    <div class="card">
+      <b>📞 พนักงานรับแจ้งซ่อม (2)</b>
+      <ul><li>โปน</li><li>พี่เบิร์ด</li></ul>
+      <div class="d" style="font-size:13px;color:var(--muted)">แก้ไข/เพิ่มได้เองที่เมนู “ทีมงาน”</div>
+    </div>
+  </div>
+
+  <!-- 4. เมนู -->
+  <h2>4. โครงสร้างเมนู</h2>
+  <table>
+    <tr><th>เมนู</th><th>ใช้ทำอะไร</th></tr>
+    <tr><td>📊 แดชบอร์ด</td><td>ภาพรวมงานทั้งหมด ตัวเลขสรุป กราฟ และงานที่ต้องเร่ง</td></tr>
+    <tr><td>➕ แจ้งซ่อมใหม่</td><td>บันทึกคำร้องจากลูกค้า (เลือกบ้าน + รายละเอียด + รูป)</td></tr>
+    <tr><td>🗂️ รายการงาน</td><td>ค้นหา มอบหมาย อัปเดตสถานะ และปิดงาน</td></tr>
+    <tr><td>📋 บอร์ดสถานะ</td><td>มุมมอง Kanban ตามสถานะงาน</td></tr>
+    <tr><td>🏘️ ทะเบียนบ้าน</td><td>รายชื่อบ้าน 124 หลัง + ประวัติซ่อมรายหลัง</td></tr>
+    <tr><td>👷 ทีมงาน</td><td>จัดการช่างและพนักงานรับแจ้ง</td></tr>
+  </table>
+
+  <!-- 5. ไฟล์ -->
+  <h2>5. ไฟล์ในโครงการ</h2>
+  <div class="files">
+    <div class="file"><span class="ic">📄</span><div><b>home-repair-system.html</b><div class="d">เว็บแอปหลัก — เปิดในเบราว์เซอร์ใช้งานได้ทันที ทำงานได้ทั้งแบบออฟไลน์ (เก็บในเครื่อง) และออนไลน์ (ต่อคลาวด์)</div></div></div>
+    <div class="file"><span class="ic">📜</span><div><b>Code.gs</b><div class="d">โค้ดหลังบ้าน นำไปวางใน Google Apps Script — เก็บข้อมูลใน Google Sheet และส่ง LINE</div></div></div>
+    <div class="file"><span class="ic">📘</span><div><b>คู่มือติดตั้งใช้งานจริง.html</b><div class="d">ขั้นตอนติดตั้งทีละสเต็ป (Google Sheet, Deploy, เชื่อม LINE)</div></div></div>
+    <div class="file"><span class="ic">📗</span><div><b>สรุประบบแจ้งซ่อมบ้าน.html</b><div class="d">เอกสารฉบับนี้ — สรุปภาพรวมระบบสำหรับทบทวน/ส่งต่อทีม</div></div></div>
+  </div>
+
+  <!-- 6. สถาปัตยกรรม -->
+  <h2>6. สถาปัตยกรรมตอนใช้งานจริง</h2>
+  <div class="flow">
+    <span class="step">💻 เว็บแอป (ทุกเครื่อง/มือถือ)</span><span class="arr">⇄</span>
+    <span class="step">📜 Google Apps Script</span><span class="arr">⇄</span>
+    <span class="step">📊 Google Sheet (ฐานข้อมูลกลาง)</span>
+  </div>
+  <div class="flow">
+    <span class="step">📜 Apps Script</span><span class="arr">→</span>
+    <span class="step">💬 LINE Messaging API</span><span class="arr">→</span>
+    <span class="step">📱 กลุ่มช่าง / ช่างรายคน</span>
+  </div>
+  <p>ทุกคนที่เปิดเว็บแอปด้วยค่าเชื่อมต่อเดียวกันจะเห็นข้อมูลชุดเดียวกัน และรีเฟรชอัตโนมัติทุก ~12 วินาที</p>
+
+  <!-- 7. เช็คลิสต์ -->
+  <h2>7. ✅ เช็คลิสต์ก่อน Go-Live</h2>
+  <ul class="check">
+    <li>สร้าง Google Sheet และวางโค้ด Code.gs ใน Apps Script</li>
+    <li>ตั้งรหัสลับ (API_KEY) และ Deploy เป็น Web app (Execute as: Me / Access: Anyone)</li>
+    <li>ใส่ URL + รหัสลับในเว็บแอป (ตัวแปร <code>CLOUD</code>) และเห็น “☁️ ซิงก์แล้ว”</li>
+    <li>สร้าง LINE Official Account + Messaging API และใส่ Channel access token ใน Code.gs</li>
+    <li>เชิญบอทเข้ากลุ่มช่าง และตั้งค่าปลายทาง (LINE_TO) แล้ว Deploy เวอร์ชันใหม่</li>
+    <li>ทดสอบ: แจ้งงาน 1 ใบ + มอบหมายช่าง → ข้อความเด้งเข้ากลุ่ม LINE</li>
+    <li>นำเข้ารายชื่อบ้าน 124 หลังจริง (เลขที่/โซน/เจ้าของ/เบอร์)</li>
+    <li>ใส่ความชำนาญ/เบอร์โทรของช่างแต่ละคน (ถ้าต้องการ)</li>
+    <li>เปิดเว็บแอปในอีกเครื่อง/มือถือ ยืนยันว่าเห็นข้อมูลตรงกัน</li>
+    <li>แจ้งทีมงานเรื่องวิธีเข้าใช้ และตกลงว่าใครดูแลงานส่วนไหน</li>
+  </ul>
+
+  <!-- 8. ข้อควรระวัง -->
+  <h2>8. ข้อควรระวัง</h2>
+  <div class="box danger">⛔ <b>ไฟล์ HTML มีรหัสลับอยู่ข้างใน</b> — แชร์เฉพาะภายในทีมเท่านั้น อย่าเผยแพร่สู่สาธารณะ</div>
+  <div class="box warn">⚠️ <b>แก้โค้ด Code.gs แล้วต้อง Deploy เวอร์ชันใหม่ทุกครั้ง</b> (Manage deployments → New version) ถึงจะมีผล</div>
+  <div class="box warn">⚠️ <b>การแก้พร้อมกัน:</b> ใช้หลัก “บันทึกล่าสุดทับของเดิม” — ถ้าสองคนแก้งานใบเดียวกันในวินาทีเดียวกันอาจทับกันได้ ทีมเล็กมักไม่ชนกัน แต่ควรตกลงหน้าที่กันไว้</div>
+  <div class="box tip">💡 <b>สำรองข้อมูล:</b> Google Sheet เก็บอัตโนมัติ + มีปุ่มบันทึก JSON ในเว็บแอปให้ดาวน์โหลดสำรองเป็นระยะ</div>
+
+  <!-- 9. อนาคต -->
+  <h2>9. ต่อยอดได้ในอนาคต</h2>
+  <ul>
+    <li>ส่ง LINE แยกรายช่าง (ไม่ใช่เข้ากลุ่มรวม) โดยเก็บ LINE userId ของช่างแต่ละคน</li>
+    <li>ให้ลูกค้าให้คะแนนความพึงพอใจหลังปิดงาน</li>
+    <li>รายงานสรุปรายเดือน + ส่งออก Excel/PDF สำหรับผู้บริหาร</li>
+    <li>บันทึกอะไหล่/วัสดุที่ใช้ต่องาน และงานซ่อมบำรุงเชิงป้องกันตามรอบ (PM)</li>
+    <li>ระบบสิทธิ์ผู้ใช้ (CS / ช่าง / หัวหน้า) และการอนุมัติค่าใช้จ่ายเมื่อเกินวงเงิน</li>
+    <li>แจ้งเตือนงานค้าง/เกิน SLA อัตโนมัติเข้า LINE</li>
+  </ul>
+
+  <div class="box" style="margin-top:28px;background:var(--brand-soft);border:none">
+    <b>สรุป:</b> ระบบพร้อมใช้งานจริงแล้ว ทำงานได้ทันทีแบบออฟไลน์ และเปิดโหมดหลายคน + LINE อัตโนมัติได้เมื่อทำตามเช็คลิสต์ข้อ 7 เสร็จ
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>คู่มือติดตั้ง — ระบบแจ้งซ่อมบ้าน ขึ้นใช้งานจริง</title>
+<style>
+  :root{--ink:#1f2733;--muted:#6b7688;--line:#e6e9f0;--brand:#3557d6;--brand-soft:#eaefff;--ok:#1e9e6a;--warn:#d98a00;--danger:#d63c4a;--code:#0f1836;}
+  *{box-sizing:border-box}
+  body{font-family:"Noto Sans Thai","Sarabun",-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.7;margin:0;background:#f4f6fb}
+  .wrap{max-width:840px;margin:0 auto;padding:32px 22px 80px}
+  header{background:linear-gradient(135deg,#3557d6,#7a52d1);color:#fff;border-radius:16px;padding:26px 26px;margin-bottom:26px}
+  header h1{margin:0 0 6px;font-size:24px}
+  header p{margin:0;opacity:.9;font-size:14px}
+  h2{font-size:19px;margin:34px 0 6px;padding-top:14px;border-top:2px solid var(--line);display:flex;align-items:center;gap:10px}
+  h2 .n{background:var(--brand);color:#fff;width:30px;height:30px;border-radius:50%;display:inline-grid;place-items:center;font-size:15px;flex-shrink:0}
+  h3{font-size:15px;margin:18px 0 4px}
+  p,li{font-size:14.5px}
+  ol,ul{padding-inline-start:22px}
+  li{margin:6px 0}
+  code{background:#eef1f7;padding:2px 6px;border-radius:5px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:#c0392b}
+  pre{background:var(--code);color:#e6ebff;padding:14px 16px;border-radius:10px;overflow:auto;font-size:13px;line-height:1.5}
+  pre code{background:none;color:inherit;padding:0}
+  .box{border:1px solid var(--line);background:#fff;border-radius:12px;padding:16px 18px;margin:12px 0}
+  .tip{border-inline-start:4px solid var(--ok);background:#f2fbf6}
+  .warn{border-inline-start:4px solid var(--warn);background:#fdf8ec}
+  .danger{border-inline-start:4px solid var(--danger);background:#fdf1f2}
+  .tag{display:inline-block;background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:700;padding:2px 9px;border-radius:20px;margin-inline-start:6px}
+  a{color:var(--brand)}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:start}
+  th{background:#f7f9fc}
+  .files{display:grid;gap:8px;margin:8px 0}
+  .file{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:#fff}
+  .file b{font-size:14px}
+  .file .d{font-size:12.5px;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>🚀 คู่มือนำระบบแจ้งซ่อมบ้านขึ้นใช้งานจริง</h1>
+    <p>หลายคนใช้พร้อมกัน (เรียลไทม์) · ฐานข้อมูลบน Google Sheets · แจ้งเตือนเข้า LINE อัตโนมัติ</p>
+  </header>
+
+  <div class="box">
+    <b>ภาพรวมระบบ</b>
+    <p style="margin:8px 0 0">เว็บแอป (ไฟล์ HTML) จะคุยกับ <b>Google Apps Script</b> ซึ่งเก็บข้อมูลทั้งหมดไว้ใน <b>Google Sheet</b> กลาง ทุกคนที่เปิดเว็บแอปด้วย URL เดียวกันจะเห็นข้อมูลชุดเดียวกัน และเมื่อมอบหมายงาน ระบบจะยิงข้อความเข้า <b>LINE</b> ให้ช่างอัตโนมัติ</p>
+    <div class="files" style="margin-top:12px">
+      <div class="file">📄 <div><b>home-repair-system.html</b><div class="d">เว็บแอปหลัก (เปิดใช้งาน + วางค่าเชื่อมต่อ)</div></div></div>
+      <div class="file">📜 <div><b>Code.gs</b><div class="d">โค้ดหลังบ้าน นำไปวางใน Google Apps Script</div></div></div>
+    </div>
+  </div>
+
+  <p style="color:var(--muted)">เวลาโดยประมาณ 30–45 นาที · ทำครั้งเดียว · ไม่มีค่าใช้จ่าย (ใช้บัญชี Google และ LINE ฟรีได้)</p>
+
+  <!-- ส่วน A -->
+  <h2><span class="n">1</span> ตั้งฐานข้อมูลด้วย Google Sheet + Apps Script</h2>
+  <ol>
+    <li>ไปที่ <a href="https://sheets.new" target="_blank">sheets.new</a> เพื่อสร้าง Google Sheet ใหม่ ตั้งชื่อ เช่น <code>ฐานข้อมูลแจ้งซ่อม</code></li>
+    <li>บนแถบเมนู เลือก <b>ส่วนขยาย (Extensions)</b> → <b>Apps Script</b></li>
+    <li>ลบโค้ดตัวอย่างที่ขึ้นมา (<code>function myFunction(){}</code>) ให้หมด แล้ววางเนื้อหาทั้งหมดจากไฟล์ <b>Code.gs</b> ลงไป</li>
+    <li>แก้บรรทัดตั้งค่าด้านบนสุด ตอนนี้ตั้งแค่รหัสลับก่อน (LINE ค่อยทำในขั้นที่ 3):
+      <pre><code>const API_KEY = 'CHANGE_ME_ตั้งรหัสลับเอง';   // ← ตั้งรหัสลับของคุณเอง เช่น 'baan124-secret'</code></pre>
+    </li>
+    <li>กดไอคอน 💾 บันทึก (Save project)</li>
+  </ol>
+  <div class="box tip">💡 <b>รหัสลับ (API_KEY)</b> คือกันไม่ให้คนนอกยิงข้อมูลเข้าระบบ ตั้งเป็นข้อความอะไรก็ได้ที่เดายาก แล้วจำไว้ใช้ในขั้นที่ 2</div>
+
+  <h2><span class="n">2</span> เผยแพร่เป็นเว็บแอป (Deploy) และเชื่อมกับหน้าเว็บ</h2>
+  <ol>
+    <li>ใน Apps Script กดปุ่ม <b>Deploy</b> (มุมขวาบน) → <b>New deployment</b></li>
+    <li>กดไอคอนเฟือง ⚙️ ข้าง "Select type" → เลือก <b>Web app</b></li>
+    <li>ตั้งค่า:
+      <table>
+        <tr><th>ช่อง</th><th>เลือก</th></tr>
+        <tr><td>Description</td><td>เว้นว่าง หรือใส่ว่า repair v1</td></tr>
+        <tr><td>Execute as</td><td><b>Me</b> (บัญชีคุณ)</td></tr>
+        <tr><td>Who has access</td><td><b>Anyone</b></td></tr>
+      </table>
+    </li>
+    <li>กด <b>Deploy</b> → ครั้งแรกจะขึ้นให้ <b>Authorize access</b> ให้กดอนุญาต (เลือกบัญชี → Advanced → Go to project → Allow)</li>
+    <li>คัดลอก <b>Web app URL</b> ที่ได้ (ลงท้ายด้วย <code>/exec</code>)</li>
+    <li>เปิดไฟล์ <b>home-repair-system.html</b> ด้วยโปรแกรมแก้ข้อความ (เช่น Notepad / TextEdit) ค้นหาบรรทัด:
+      <pre><code>const CLOUD = { url:"", key:"" };</code></pre>
+      แล้วใส่ URL กับรหัสลับให้ตรงกับที่ตั้งไว้:
+      <pre><code>const CLOUD = {
+  url:"https://script.google.com/macros/s/xxxxx/exec",
+  key:"baan124-secret"
+};</code></pre>
+    </li>
+    <li>บันทึกไฟล์ แล้วเปิดในเบราว์เซอร์ — มุมขวาบนต้องขึ้น <b>☁️ ซิงก์แล้ว</b> ถือว่าเชื่อมต่อสำเร็จ 🎉</li>
+  </ol>
+  <div class="box warn">⚠️ ทุกครั้งที่ <u>แก้โค้ดใน Code.gs</u> ต้องไป <b>Deploy → Manage deployments → ✏️ (แก้ไข) → Version: New version → Deploy</b> เพื่อให้โค้ดใหม่มีผล (URL เดิมไม่เปลี่ยน)</div>
+
+  <h2><span class="n">3</span> ตั้งการแจ้งเตือนเข้า LINE อัตโนมัติ</h2>
+  <h3>3.1 สร้าง LINE Official Account + ช่อง Messaging API</h3>
+  <ol>
+    <li>ไปที่ <a href="https://developers.line.biz/console/" target="_blank">LINE Developers Console</a> เข้าสู่ระบบด้วยบัญชี LINE</li>
+    <li>สร้าง <b>Provider</b> ใหม่ (เช่น ชื่อหมู่บ้าน) → สร้าง <b>Channel</b> ประเภท <b>Messaging API</b></li>
+    <li>เข้าไปที่แท็บ <b>Messaging API</b> → เลื่อนลงหา <b>Channel access token (long-lived)</b> → กด <b>Issue</b> แล้วคัดลอกไว้</li>
+    <li>นำ token ไปวางใน Code.gs:
+      <pre><code>const LINE_TOKEN = 'วาง token ที่คัดลอกมาตรงนี้';</code></pre>
+    </li>
+  </ol>
+
+  <h3>3.2 หา "ปลายทาง" ที่จะส่งข้อความ (กลุ่มช่าง)</h3>
+  <p>วิธีที่ง่ายที่สุดคือส่งเข้า <b>กลุ่ม LINE ของทีมช่าง</b> ทำดังนี้:</p>
+  <ol>
+    <li>ในแท็บ Messaging API ของ LINE ให้ปิด <b>Auto-reply</b> และเปิด <b>Allow bot to join group chats</b></li>
+    <li>สแกน QR เพิ่มบอทเป็นเพื่อน แล้ว <b>เชิญบอทเข้ากลุ่มช่าง</b></li>
+    <li>ตั้ง <b>Webhook URL</b> = URL เว็บแอปเดียวกัน (ลงท้าย /exec) และเปิด <b>Use webhook</b></li>
+    <li>พิมพ์อะไรก็ได้ในกลุ่ม 1 ข้อความ → ระบบจะบันทึก <b>groupId</b> ไว้ในชีต STATE ช่อง <b>A2</b></li>
+    <li>คัดลอก groupId นั้นไปใส่ใน Code.gs:
+      <pre><code>const LINE_TO = 'วาง groupId ที่ได้จากช่อง A2';</code></pre>
+    </li>
+    <li>กด Deploy ใหม่ (Manage deployments → New version) ตามที่เตือนไว้ข้างบน</li>
+  </ol>
+  <div class="box tip">💡 อยากส่งหาช่างเป็นรายคนแทนกลุ่ม? ทำได้ภายหลังโดยเก็บ <code>userId</code> ของช่างแต่ละคน (ให้ช่างทักบอท แล้วดู userId ในช่อง A2) — บอกผมได้ถ้าต้องการ เดี๋ยวเพิ่มช่องกรอก LINE ให้ในหน้าจัดการช่าง</div>
+
+  <h2><span class="n">4</span> ทดสอบและเริ่มใช้งาน</h2>
+  <ol>
+    <li>เปิดเว็บแอป → เห็น <b>☁️ ซิงก์แล้ว</b></li>
+    <li>ไปเมนู <b>ทะเบียนบ้าน</b> → กด <b>นำเข้ารายชื่อ (วาง)</b> วางข้อมูลบ้าน 124 หลังจริง (รูปแบบ: เลขที่, โซน, เจ้าของ, เบอร์)</li>
+    <li>ลอง <b>แจ้งซ่อมใหม่</b> แล้วมอบหมายช่าง → ข้อความควรเด้งเข้ากลุ่ม LINE อัตโนมัติ</li>
+    <li>เปิดเว็บแอปด้วย URL/ไฟล์เดียวกันในอีกเครื่อง/มือถือ → ต้องเห็นงานเดียวกัน (รีเฟรชอัตโนมัติทุก ~12 วินาที)</li>
+  </ol>
+
+  <h2><span class="n">5</span> การแชร์ให้ทีม & ข้อควรระวัง</h2>
+  <h3>วิธีให้ทีมเข้าถึง</h3>
+  <ul>
+    <li><b>ง่ายสุด:</b> ส่งไฟล์ <code>home-repair-system.html</code> (ที่ใส่ค่า CLOUD แล้ว) ให้ทุกคนเก็บไว้เปิดในเบราว์เซอร์/มือถือ — ทุกไฟล์ที่มีค่า CLOUD เดียวกันจะเห็นข้อมูลชุดเดียวกัน</li>
+    <li><b>เปิดผ่านลิงก์:</b> อัปโหลดไฟล์ขึ้น <a href="https://app.netlify.com/drop" target="_blank">Netlify Drop</a> (ลากไฟล์วาง ได้ลิงก์ทันที ฟรี) หรือ GitHub Pages แล้วส่งลิงก์ให้ทีม</li>
+  </ul>
+  <div class="box danger">⛔ <b>อย่าเผยแพร่ไฟล์ที่มีรหัสลับสู่สาธารณะ</b> เพราะไฟล์ HTML มี API_KEY อยู่ข้างใน ให้แชร์เฉพาะภายในทีมเท่านั้น (ลิงก์ Netlify แบบไม่เปิดเผย/ส่งไฟล์ตรง)</div>
+  <div class="box warn">⚠️ <b>การแก้ไขพร้อมกัน:</b> ระบบใช้หลัก "บันทึกล่าสุดทับของเดิม" ถ้าสองคนแก้ <u>งานใบเดียวกันในวินาทีเดียวกัน</u> อาจทับกันได้ ในทางปฏิบัติทีมเล็กมักไม่ชนกัน แต่ควรตกลงกันว่าใครดูแลใบไหน หากต้องการกันชนแบบเข้มงวด บอกผมได้</div>
+  <div class="box tip">💡 <b>สำรองข้อมูล:</b> Google Sheet เก็บให้อัตโนมัติอยู่แล้ว และในเว็บแอปยังมีปุ่ม <b>บันทึกข้อมูล (JSON)</b> ให้ดาวน์โหลดสำรองเป็นระยะได้</div>
+
+  <div class="box" style="margin-top:30px;background:var(--brand-soft);border:none">
+    <b>สรุปลำดับการติดตั้ง</b>
+    <p style="margin:8px 0 0">Google Sheet → วาง Code.gs → ตั้ง API_KEY → Deploy เป็น Web app → คัดลอก URL ไปใส่ในเว็บแอป (CLOUD) → เชื่อม LINE (token + groupId) → นำเข้ารายชื่อบ้าน → เริ่มใช้งาน</p>
+  </div>
+</div>
+</body>
+</html>

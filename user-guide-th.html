@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>วิธีใช้งานระบบแจ้งซ่อมบ้าน (สำหรับพนักงาน)</title>
+<style>
+  :root{--ink:#1f2733;--muted:#6b7688;--line:#e6e9f0;--brand:#3557d6;--brand-soft:#eaefff;--ok:#1e9e6a;--ok-soft:#e3f6ee;--warn:#d98a00;--warn-soft:#fdf3dd;--purple:#7a52d1;--purple-soft:#efe8fc;}
+  *{box-sizing:border-box}
+  body{font-family:"Noto Sans Thai","Sarabun",-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.7;margin:0;background:#f4f6fb}
+  .wrap{max-width:860px;margin:0 auto;padding:30px 20px 80px}
+  header{background:linear-gradient(135deg,#3557d6,#7a52d1);color:#fff;border-radius:16px;padding:26px;margin-bottom:22px}
+  header h1{margin:0 0 6px;font-size:24px}
+  header p{margin:0;opacity:.92;font-size:14.5px}
+  h2{font-size:19px;margin:30px 0 12px;padding-top:16px;border-top:2px solid var(--line);display:flex;align-items:center;gap:10px}
+  .role{display:inline-block;font-size:12px;font-weight:700;padding:2px 10px;border-radius:20px;margin-inline-start:auto}
+  .r-cs{background:var(--brand-soft);color:var(--brand)}
+  .r-tech{background:var(--warn-soft);color:var(--warn)}
+  .r-all{background:var(--purple-soft);color:var(--purple)}
+  ol{counter-reset:step;list-style:none;padding-inline-start:0;margin:0}
+  ol li{position:relative;padding:12px 14px 12px 52px;background:#fff;border:1px solid var(--line);border-radius:12px;margin:9px 0;font-size:14.5px}
+  ol li::before{counter-increment:step;content:counter(step);position:absolute;inset-inline-start:12px;top:12px;width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;display:grid;place-items:center;font-size:14px}
+  .btn{display:inline-block;background:#eef1f7;border:1px solid var(--line);border-radius:8px;padding:1px 9px;font-weight:700;font-size:13.5px;white-space:nowrap}
+  .btn.p{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .btn.g{background:var(--ok-soft);color:#146c48;border-color:#bfe6d3}
+  .btn.line{background:#e7f8ee;color:#06864a;border-color:#b7e9c9}
+  .box{border-radius:12px;padding:14px 16px;margin:14px 0;font-size:14px}
+  .tip{border-inline-start:4px solid var(--ok);background:var(--ok-soft)}
+  .warn{border-inline-start:4px solid var(--warn);background:var(--warn-soft)}
+  .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:10px 0}
+  .m{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13.5px}
+  .m b{display:block}
+  .m .d{color:var(--muted);font-size:12.5px}
+  .chip{display:inline-block;padding:1px 9px;border-radius:20px;font-size:12px;font-weight:700}
+  .c1{background:#e4f3fb;color:#1c6d99}.c3{background:#fdf3dd;color:#9a6300}.c5{background:#e3f6ee;color:#146c48}
+  code{background:#eef1f7;padding:1px 6px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>📖 วิธีใช้งานระบบแจ้งซ่อมบ้าน</h1>
+    <p>คู่มือสำหรับพนักงานรับแจ้ง (โปน / พี่เบิร์ด) และทีมช่าง — เปิดดูได้ทุกวัน</p>
+  </header>
+
+  <div class="box tip">
+    <b>เปิดระบบ:</b> ดับเบิลคลิกไฟล์ <code>index.html</code> เพื่อเปิดในเบราว์เซอร์ (Chrome/Safari/Edge) เปิดบนมือถือก็ได้
+    เมนูทั้งหมดอยู่แถบซ้าย (บนมือถือกดปุ่ม ☰ มุมซ้ายบน)
+  </div>
+
+  <h2>🗺️ เมนูมีอะไรบ้าง <span class="role r-all">ทุกคน</span></h2>
+  <div class="menu">
+    <div class="m"><b>📊 แดชบอร์ด</b><div class="d">ภาพรวม ตัวเลขสรุป งานที่ต้องเร่ง</div></div>
+    <div class="m"><b>➕ แจ้งซ่อมใหม่</b><div class="d">บันทึกงานที่ลูกค้าแจ้งเข้ามา</div></div>
+    <div class="m"><b>🗂️ รายการงาน</b><div class="d">ค้นหา มอบหมาย ปิดงาน</div></div>
+    <div class="m"><b>📋 บอร์ดสถานะ</b><div class="d">ดูงานเป็นคอลัมน์ตามสถานะ</div></div>
+    <div class="m"><b>🏘️ ทะเบียนบ้าน</b><div class="d">รายชื่อบ้าน + ประวัติรายหลัง</div></div>
+    <div class="m"><b>👷 ทีมงาน</b><div class="d">ช่างและพนักงานรับแจ้ง</div></div>
+  </div>
+
+  <h2>1️⃣ รับแจ้งซ่อมจากลูกค้า <span class="role r-cs">พนักงานรับแจ้ง</span></h2>
+  <ol>
+    <li>กดเมนู <span class="btn">➕ แจ้งซ่อมใหม่</span></li>
+    <li>ช่อง <b>เลือกบ้าน</b> — เลือกบ้านจากทะเบียน (พิมพ์เลขที่เพื่อค้นได้) ระบบจะเติมโครงการ/เจ้าของ/เบอร์ให้อัตโนมัติ</li>
+    <li>เลือก <b>ผู้รับแจ้ง</b> เป็นชื่อตัวเอง (โปน หรือ พี่เบิร์ด) และตรวจ <b>วันที่แจ้งซ่อม</b> (ตั้งเป็นวันนี้ให้แล้ว)</li>
+    <li>กรอก <b>ชื่อผู้แจ้ง + เบอร์ติดต่อ</b> (ถ้าต่างจากเจ้าของบ้าน) และ <b>หัวข้อปัญหา</b> เช่น “ชักโครกตัน”</li>
+    <li>เลือก <b>ประเภทงาน</b> (ประปา/ไฟฟ้า/แอร์…) และ <b>ความเร่งด่วน</b> (ปกติ/ด่วน/ด่วนมาก)</li>
+    <li>ใส่ <b>รายละเอียด</b> และ <b>แนบรูป</b> จุดที่เสีย (กดที่กรอบรูป หรือลากรูปมาวาง — แนบได้หลายรูป)</li>
+    <li>ถ้ารู้ช่างแล้ว เลือก <b>มอบหมายช่างทันที</b> เลย (ไม่รู้ก็เว้นไว้ มอบหมายทีหลังได้)</li>
+    <li>กด <span class="btn p">💾 บันทึกคำร้องซ่อม</span> — ระบบออกรหัสงานให้ เช่น <code>JOB-0542</code></li>
+  </ol>
+
+  <h2>2️⃣ มอบหมายช่าง & แจ้งเข้าไลน์ <span class="role r-cs">พนักงานรับแจ้ง</span></h2>
+  <ol>
+    <li>ไปเมนู <span class="btn">🗂️ รายการงาน</span> แล้วคลิกงานที่ต้องการ (หรือคลิกจากแดชบอร์ด)</li>
+    <li>ในหน้าต่างงาน เลือก <b>ช่างผู้รับผิดชอบ</b> — ระบบโชว์จำนวนงานค้างของช่างแต่ละคน ช่วยเลือกให้กระจายงาน</li>
+    <li>กด <span class="btn p">💾 บันทึกการเปลี่ยนแปลง</span> สถานะจะเปลี่ยนเป็น <span class="chip c1">มอบหมายแล้ว</span> อัตโนมัติ</li>
+    <li>กด <span class="btn line">💬 ส่งเข้าไลน์</span> — ระบบจัดข้อความสรุปงานให้ แล้วเปิดไลน์ให้เลือกกลุ่มช่างเพื่อส่ง</li>
+  </ol>
+  <div class="box tip">💡 ถ้าต่อระบบกับคลาวด์แล้ว งานที่มอบหมายจะ <b>ยิงเข้าไลน์ให้ช่างอัตโนมัติ</b> โดยไม่ต้องกดส่งเอง</div>
+
+  <h2>3️⃣ อัปเดตความคืบหน้า & ปิดงาน <span class="role r-tech">ช่าง / ผู้ดูแล</span></h2>
+  <ol>
+    <li>เปิดงานที่ทำอยู่จาก <span class="btn">🗂️ รายการงาน</span></li>
+    <li>อัปเดต <b>สถานะงาน</b>: <span class="chip c3">กำลังดำเนินการ</span> เมื่อเริ่มซ่อม / <span class="chip">รออะไหล่</span> ถ้าต้องรอของ</li>
+    <li>ลง <b>วันที่</b>: เข้าประเมินหน้างาน / เข้าซ่อม (พอเปลี่ยนเป็น “กำลังดำเนินการ” ระบบลงวันเข้าซ่อมให้เอง)</li>
+    <li>ใส่ <b>ค่าใช้จ่าย</b>: ประเมินก่อน แล้วกรอกค่าจริงเมื่อซ่อมเสร็จ</li>
+    <li>พิมพ์ <b>บันทึกความคืบหน้า</b> ถ้ามี แล้วกด <span class="btn p">💾 บันทึกการเปลี่ยนแปลง</span></li>
+    <li>เมื่อเสร็จ กด <span class="btn g">✅ ปิดงาน — เสร็จเรียบร้อย</span> ระบบลงวันงานเสร็จและขึ้นป้าย <span class="chip c5">เสร็จสิ้น</span></li>
+  </ol>
+  <div class="box warn">⚠️ ต้องมอบหมายช่างก่อนถึงจะปิดงานได้ — ทุกการเปลี่ยนแปลงจะถูกบันทึกลงประวัติงานให้อัตโนมัติ</div>
+
+  <h2>4️⃣ ดูทะเบียนบ้าน & ประวัติซ่อมรายหลัง <span class="role r-all">ทุกคน</span></h2>
+  <ol>
+    <li>กดเมนู <span class="btn">🏘️ ทะเบียนบ้าน</span> — กรองตาม <b>โครงการ</b> หรือค้นด้วยเลขที่บ้าน/เจ้าของ</li>
+    <li>คลิกบ้านหลังใด จะเห็น <b>ประวัติซ่อมทั้งหมด</b>ของหลังนั้น จำนวนงาน งานค้าง และค่าซ่อมสะสม</li>
+    <li>กด <span class="btn">➕ แจ้งซ่อมบ้านหลังนี้</span> เพื่อเปิดงานใหม่ให้บ้านหลังนั้นได้ทันที</li>
+    <li>แก้ชื่อเจ้าของ/เบอร์/โครงการได้ที่ปุ่ม <span class="btn">✏️ แก้ไขข้อมูลบ้าน</span> หรือเพิ่มหลายหลังพร้อมกันด้วย <span class="btn">📋 นำเข้ารายชื่อ (วาง)</span></li>
+  </ol>
+
+  <h2>5️⃣ อ่านแดชบอร์ด & ค้นหางาน <span class="role r-all">ทุกคน</span></h2>
+  <ol>
+    <li><b>แดชบอร์ด</b>: การ์ดด้านบนบอกงานทั้งหมด/กำลังทำ/เสร็จ/เกินกำหนด ด้านล่างมีกราฟแยกสถานะ ภาระงานช่าง และยอดค่าใช้จ่าย</li>
+    <li>ป้าย <span class="chip" style="background:#fde7e9;color:#b02b38">⏰ เกิน SLA</span> = งานค้างเกินเวลาที่ควรเข้าดำเนินการ ให้เร่งก่อน</li>
+    <li>ที่ <b>รายการงาน</b> ใช้ช่องค้นหา (รหัส/ลูกค้า/หัวข้อ/สถานที่) และตัวกรองสถานะ/ความเร่งด่วน/ช่าง</li>
+    <li><b>บอร์ดสถานะ</b> เหมาะดูภาพรวมว่างานไหลถึงขั้นไหนแล้ว</li>
+  </ol>
+
+  <h2>💾 การบันทึกข้อมูล <span class="role r-all">สำคัญ</span></h2>
+  <div class="box warn">
+    ถ้ายังใช้แบบ <b>ออฟไลน์</b> (มุมขวาบนขึ้น 💾 ออฟไลน์): กด <span class="btn">⬇️ บันทึกข้อมูล (JSON)</span> เก็บไฟล์ทุกครั้งหลังทำงานเสร็จ
+    และ <span class="btn">⬆️ โหลดข้อมูล (JSON)</span> เพื่อเปิดข้อมูลล่าสุดตอนกลับมาใช้ มิฉะนั้นข้อมูลที่แก้จะไม่ถูกเก็บ
+  </div>
+  <div class="box tip">
+    ถ้าต่อ <b>คลาวด์</b> แล้ว (มุมขวาบนขึ้น ☁️ ซิงก์แล้ว): ทุกอย่างบันทึกอัตโนมัติ ทุกคนเห็นข้อมูลชุดเดียวกัน ไม่ต้องกดบันทึกเอง
+  </div>
+
+  <div class="box" style="background:var(--brand-soft);border:none;margin-top:26px">
+    <b>สรุปงานประจำวันของพนักงานรับแจ้ง:</b> รับแจ้ง → เลือกบ้าน → มอบหมายช่าง → ส่งเข้าไลน์ → ติดตามจนช่างปิดงาน
+    ✅ เท่านี้ครบวงจร
+  </div>
+</div>
+</body>
+</html>
