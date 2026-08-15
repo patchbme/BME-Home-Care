@@ -5,6 +5,6 @@
    ถ้ายังไม่ต่อคลาวด์ ให้ปล่อย url เป็นค่าว่าง ระบบจะทำงานแบบออฟไลน์
    ======================================================== */
 window.APP_CLOUD = {
-  url: "",                 // ← วางลิงก์ /exec ตรงนี้
+  url: "https://script.google.com/macros/s/AKfycbx4bvpQ56zrdQuf54Rd_Oa6Tg4apC8UeD05UA-ONwpSxLL_Rg-CIZ4f_UuCnBCik28/exec",                 // ← วางลิงก์ /exec ตรงนี้
   key: "bemore-6169450cd342"
 };
